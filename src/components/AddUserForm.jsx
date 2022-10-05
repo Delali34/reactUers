@@ -14,13 +14,14 @@ function AddUserForm(props) {
 
 	const handleSubmit = async(e) => {
 		e.preventDefault();
+		
 		// if (name === "" || gen === "" || email === "") {
 		// 	alert("Please fill all the fields");
 		// }
 
 		let userBio = { name, number, location, id: uuidv4() };
 		// dispatch(AddNewUser(userBio));
-		await setDoc(doc(db,'users',userBio.id),userBio)
+		try{await setDoc(doc(db,'users',userBio.id),userBio)}catch(e){}
 		setName("");
 		setNumber("");
 		setLocation("");
