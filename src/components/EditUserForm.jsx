@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { UserEdit } from "../action/UserAction";
-
+import { doc, updateDoc } from "firebase/firestore";
+import {db} from '../firebase/config'
 function EditUserForm(props) {
 	const [name, setName] = useState(props.userBio.name);
 	const [number, setNumber] = useState(props.userBio.number);
@@ -10,15 +11,27 @@ function EditUserForm(props) {
 	const [id, setId] = useState(props.userBio.id);
 	const dispatch = useDispatch();
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// props.editUser(id, { name, number, location });
+	
+		let userInfo = {
+		  name,
+		  number,
+		  location,
+		  id,
+		};
+		try {
+		  const docRef = doc(db, "users", userInfo.id);
+		  await updateDoc(docRef, userInfo);
+		} catch (error) {
+		  console.log(error);
+		}
+	
 		setName("");
 		setNumber("");
 		setLocation("");
 		setId("");
 		props.close();
-		dispatch(UserEdit({ id, name, number, location }));
 	  };
 	return (
 		<div>

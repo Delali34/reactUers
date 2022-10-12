@@ -12,20 +12,25 @@ function AddUserForm(props) {
 	const [location, setLocation] = useState("");
 	const dispatch = useDispatch();
 
-	const handleSubmit = async(e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		
-		// if (name === "" || gen === "" || email === "") {
-		// 	alert("Please fill all the fields");
-		// }
-
-		let userBio = { name, number, location, id: uuidv4() };
-		// dispatch(AddNewUser(userBio));
-		try{await setDoc(doc(db,'users',userBio.id),userBio)}catch(e){}
+		let userInfo = {
+		  name,
+		  number,
+		  location,
+		  id: uuidv4(),
+		};
+		// dispatch(AddNewUser(userInfo));
+		try {
+		  await setDoc(doc(db, "users", userInfo.id), userInfo);
+		} catch (e) {
+		  console.log(e);
+		}
+	
 		setName("");
 		setNumber("");
 		setLocation("");
-	};
+	  };
 	return (
 		<div>
 			<Form>
